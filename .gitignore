@@ -1,0 +1,12 @@
+*.user
+
+.vs
+
+Assembler/obj
+Assembler/bin
+
+DCPU16/obj
+DCPU16/bin
+
+DCPU16.Tests/obj
+DCPU16.Tests/bin
