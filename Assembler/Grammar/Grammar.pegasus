@@ -1,25 +1,101 @@
 ﻿@namespace Assembler.Grammar
 @classname Parser
+
 @using System.Globalization
+@using Assembler.Grammar.Ast
+@using Assembler.Grammar.Ast.Instructions
+@using Assembler.Grammar.Ast.Operands
+@using DCPU16
 
-additive <double> -memoize
-    = left:additive "+" right:multiplicative { left + right }
-    / left:additive "-" right:multiplicative { left - right }
-    / multiplicative
+primary <AsmFile> -memoize
+    = "." { null }
 
-multiplicative <double> -memoize
-    = left:multiplicative "*" right:power { left * right }
-    / left:multiplicative "/" right:power { left / right }
-    / power
+instruction <BaseInstruction>
+    = o:basic_opcode _ b:operand_b _ "," _ a:operand_a { new BasicInstruction(o, a, b) }
+    / o:special_opcode _ a:operand_a { new SpecialInstruction(o, a) }
 
-power <double>
-    = left:primary "^" right:power { Math.Pow(left, right) }
-    / primary
+basic_opcode <BasicOpcode>
+    = "SET" { BasicOpcode.SET }
+    / "ADD" { BasicOpcode.ADD }
+    / "SUB" { BasicOpcode.SUB }
+    / "MUL" { BasicOpcode.MUL }
+    / "MLI" { BasicOpcode.MLI }
+    / "DIV" { BasicOpcode.DIV }
+    / "DVI" { BasicOpcode.DVI }
+    / "MOD" { BasicOpcode.MOD }
+    / "MDI" { BasicOpcode.MDI }
+    / "AND" { BasicOpcode.AND }
+    / "BOR" { BasicOpcode.BOR }
+    / "XOR" { BasicOpcode.XOR }
+    / "SHR" { BasicOpcode.SHR }
+    / "ASR" { BasicOpcode.ASR }
+    / "SHL" { BasicOpcode.SHL }
+    / "IFB" { BasicOpcode.IFB }
+    / "IFC" { BasicOpcode.IFC }
+    / "IFE" { BasicOpcode.IFE }
+    / "IFN" { BasicOpcode.IFN }
+    / "IFG" { BasicOpcode.IFG }
+    / "IFA" { BasicOpcode.IFA }
+    / "IFL" { BasicOpcode.IFL }
+    / "IFU" { BasicOpcode.IFU }
+    / "ADX" { BasicOpcode.ADX }
+    / "SBX" { BasicOpcode.SBX }
+    / "STI" { BasicOpcode.STI }
+    / "STD" { BasicOpcode.STD }
 
-primary <double> -memoize
-    = decimal
-    / "-" primary:primary { -primary }
-    / "(" additive:additive ")" { additive }
+special_opcode <SpecialOpcode>
+    = "JSR" { SpecialOpcode.JSR }
+    / "HCF" { SpecialOpcode.HCF }
+    / "INT" { SpecialOpcode.INT }
+    / "IAG" { SpecialOpcode.IAG }
+    / "IAS" { SpecialOpcode.IAS }
+    / "RFI" { SpecialOpcode.RFI }
+    / "IAQ" { SpecialOpcode.IAQ }
+    / "HWN" { SpecialOpcode.HWN }
+    / "HWQ" { SpecialOpcode.HWQ }
+    / "HWI" { SpecialOpcode.HWI }
 
-decimal <double>
-    = value:([0-9]+ ("." [0-9]+)?) { double.Parse(value, CultureInfo.InvariantCulture) }
+operand_a <BaseOperand>
+    = s:small_number { new SmallLiteral(s) }
+    / "POP" { new PushPop(false) }
+    / operand
+
+operand_b <BaseOperand>
+    = "PUSH" { new PushPop(true) }
+    / operand
+
+operand <BaseOperand>
+    = r:register { new RegisterValue(r) }
+    / "[" _ r:register _ "]" { new IndirectRegister(r) }
+    / n:number { new NextWordLiteral(n) }
+    / "[" _ n:number _ "]" { new IndirectNextWord(n) }
+    / "[" _ r:register _ "+" _ n:number  _"]" { new IndirectRegisterNextWord(r, n) }
+
+register <Register>
+    = "A" { Register.A }
+    / "B" { Register.B }
+    / "C" { Register.C }
+    / "X" { Register.X }
+    / "Y" { Register.Y }
+    / "Z" { Register.Z }
+    / "I" { Register.I }
+    / "J" { Register.J }
+    / "PC" { Register.PC }
+    / "EX" { Register.EX }
+    / "SP" { Register.SP }
+
+small_number <int>
+    = n:number &{n >= -1 && n <= 31} { n }
+
+number <int>
+    = hex_number
+    / decimal_number
+
+decimal_number <int>
+    = s:("-"? [0-9]+) { int.Parse(s) }
+
+hex_number <int>
+    = s:("0" [xX] [0-9a-fA-F]+) { System.Convert.ToInt32(s, 16) }
+
+_
+    = [ \t]*
