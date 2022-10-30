@@ -1,6 +1,6 @@
 ﻿namespace Assembler.Grammar.AST.Operands
 {
-    internal class NextWordLiteral
+    public class NextWordLiteral
         : BaseOperand
     {
         public int Value { get; }

@@ -19,7 +19,7 @@ label <string>
 instruction <BaseInstruction>
     = o:basic_opcode _ b:operand_b _ "," _ a:operand_a { new BasicInstruction(o, a, b) }
     / o:special_opcode _ a:operand_a { new SpecialInstruction(o, a) }
-    / "dat" _ n:number+ { new DatInstruction(n.ToList()) }
+    / "dat" _ n:number<1,,","> { new DatInstruction(n.ToList()) }
 
 basic_opcode <BasicOpcode>
     = "SET"i { BasicOpcode.SET }
@@ -71,27 +71,27 @@ operand_b <BaseOperand>
     = "PUSH"i { new PushPop(true) }
     / operand
 
-operand <BaseOperand>
-    = r:register { new RegisterValue(r) }
-    / "[" _ r:register _ "]" { new IndirectRegister(r) }
+operand <BaseOperand> -memoize
+    = "[" _ r:register _ "]" { new IndirectRegister(r) }
+    / r:register ![a-zA-Z] { new RegisterValue(r) }
+    / i:identifier { new LabelValue(i) }
     / n:number { new NextWordLiteral(n) }
     / "[" _ n:number _ "]" { new IndirectNextWord(n) }
-    / "[" _ r:register _ "+" _ n:number  _"]" { new IndirectRegisterNextWord(r, n) }
-    / i:identifier { new LabelValue(i) }
     / "[" _ i:identifier _ "]" { new IndirectLabel(i) }
+    / "[" _ r:register _ "+" _ n:number  _"]" { new IndirectRegisterNextWord(r, n) }
 
 register <Register>
-    = "A" { Register.A }
-    / "B" { Register.B }
-    / "C" { Register.C }
-    / "X" { Register.X }
-    / "Y" { Register.Y }
-    / "Z" { Register.Z }
-    / "I" { Register.I }
-    / "J" { Register.J }
-    / "PC" { Register.PC }
-    / "EX" { Register.EX }
-    / "SP" { Register.SP }
+    = "A"i { Register.A }
+    / "B"i { Register.B }
+    / "C"i { Register.C }
+    / "X"i { Register.X }
+    / "Y"i { Register.Y }
+    / "Z"i { Register.Z }
+    / "I"i { Register.I }
+    / "J"i { Register.J }
+    / "PC"i { Register.PC }
+    / "EX"i { Register.EX }
+    / "SP"i { Register.SP }
 
 small_number <int>
     = n:number &{n >= -1 && n <= 31} { n }

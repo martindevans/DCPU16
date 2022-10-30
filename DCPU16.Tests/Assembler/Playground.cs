@@ -1,3 +1,4 @@
+using System.Reflection;
 using Assembler.Grammar;
 using Pegasus.Common;
 
@@ -6,41 +7,12 @@ namespace DCPU16.Tests.Assembler
     [TestClass]
     public class Playground
     {
-        private string asm = @"set pc,Start
-
-:speed dat 500
-
-:ticker dat 0
-:randish dat 0
-
-:delay
-  set a,0
-:delayloop
-  ifg a,[speed]
-  set pc,pop
-  add a,1
-  set pc,delayloop
-
-:Start
-jsr init
-:MainLoop
-  add [ticker],1
-  jsr updatePlayer
-  ife [dead],0
-  jsr animate
-  ife [dead],0
-  jsr moveGhosts
-
-  jsr delay
-  jsr probeInput
-  
-  ife [pillsEaten],[pillsInMap]
-  jsr completeLevel
-set pc,mainloop";
-
         [TestMethod]
         public void Parse()
         {
+            using var inputStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DCPU16.Tests.Assembler.DASM.pacman.dasm16");
+            var asm = new StreamReader(inputStream!).ReadToEnd();
+
             try
             {
                 var ast = new Parser().Parse(asm);

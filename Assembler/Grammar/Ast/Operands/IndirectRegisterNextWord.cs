@@ -2,7 +2,7 @@
 
 namespace Assembler.Grammar.AST.Operands
 {
-    internal class IndirectRegisterNextWord
+    public class IndirectRegisterNextWord
         : BaseOperand
     {
         public Register Register { get; }
