@@ -2,66 +2,73 @@
 @classname Parser
 
 @using System.Globalization
-@using Assembler.Grammar.Ast
-@using Assembler.Grammar.Ast.Instructions
-@using Assembler.Grammar.Ast.Operands
+@using Assembler.Grammar.AST
+@using Assembler.Grammar.AST.Instructions
+@using Assembler.Grammar.AST.Operands
 @using DCPU16
 
 primary <AsmFile> -memoize
-    = "." { null }
+    = l:line<0,,newline> _ EOF { new AsmFile(l.ToList()) }
+
+line <Line>
+    = l:label? _ i:instruction? _ (";" .*)? { new Line(l.SingleOrDefault(), i.SingleOrDefault()) }
+
+label <string>
+    = ":" l:identifier { l }
 
 instruction <BaseInstruction>
     = o:basic_opcode _ b:operand_b _ "," _ a:operand_a { new BasicInstruction(o, a, b) }
     / o:special_opcode _ a:operand_a { new SpecialInstruction(o, a) }
+    / "dat" _ n:number+ { new DatInstruction(n.ToList()) }
 
 basic_opcode <BasicOpcode>
-    = "SET" { BasicOpcode.SET }
-    / "ADD" { BasicOpcode.ADD }
-    / "SUB" { BasicOpcode.SUB }
-    / "MUL" { BasicOpcode.MUL }
-    / "MLI" { BasicOpcode.MLI }
-    / "DIV" { BasicOpcode.DIV }
-    / "DVI" { BasicOpcode.DVI }
-    / "MOD" { BasicOpcode.MOD }
-    / "MDI" { BasicOpcode.MDI }
-    / "AND" { BasicOpcode.AND }
-    / "BOR" { BasicOpcode.BOR }
-    / "XOR" { BasicOpcode.XOR }
-    / "SHR" { BasicOpcode.SHR }
-    / "ASR" { BasicOpcode.ASR }
-    / "SHL" { BasicOpcode.SHL }
-    / "IFB" { BasicOpcode.IFB }
-    / "IFC" { BasicOpcode.IFC }
-    / "IFE" { BasicOpcode.IFE }
-    / "IFN" { BasicOpcode.IFN }
-    / "IFG" { BasicOpcode.IFG }
-    / "IFA" { BasicOpcode.IFA }
-    / "IFL" { BasicOpcode.IFL }
-    / "IFU" { BasicOpcode.IFU }
-    / "ADX" { BasicOpcode.ADX }
-    / "SBX" { BasicOpcode.SBX }
-    / "STI" { BasicOpcode.STI }
-    / "STD" { BasicOpcode.STD }
+    = "SET"i { BasicOpcode.SET }
+    / "ADD"i { BasicOpcode.ADD }
+    / "SUB"i { BasicOpcode.SUB }
+    / "MUL"i { BasicOpcode.MUL }
+    / "MLI"i { BasicOpcode.MLI }
+    / "DIV"i { BasicOpcode.DIV }
+    / "DVI"i { BasicOpcode.DVI }
+    / "MOD"i { BasicOpcode.MOD }
+    / "MDI"i { BasicOpcode.MDI }
+    / "AND"i { BasicOpcode.AND }
+    / "BOR"i { BasicOpcode.BOR }
+    / "XOR"i { BasicOpcode.XOR }
+    / "SHR"i { BasicOpcode.SHR }
+    / "ASR"i { BasicOpcode.ASR }
+    / "SHL"i { BasicOpcode.SHL }
+    / "IFB"i { BasicOpcode.IFB }
+    / "IFC"i { BasicOpcode.IFC }
+    / "IFE"i { BasicOpcode.IFE }
+    / "IFN"i { BasicOpcode.IFN }
+    / "IFG"i { BasicOpcode.IFG }
+    / "IFA"i { BasicOpcode.IFA }
+    / "IFL"i { BasicOpcode.IFL }
+    / "IFU"i { BasicOpcode.IFU }
+    / "ADX"i { BasicOpcode.ADX }
+    / "SBX"i { BasicOpcode.SBX }
+    / "STI"i { BasicOpcode.STI }
+    / "STD"i { BasicOpcode.STD }
 
 special_opcode <SpecialOpcode>
-    = "JSR" { SpecialOpcode.JSR }
-    / "HCF" { SpecialOpcode.HCF }
-    / "INT" { SpecialOpcode.INT }
-    / "IAG" { SpecialOpcode.IAG }
-    / "IAS" { SpecialOpcode.IAS }
-    / "RFI" { SpecialOpcode.RFI }
-    / "IAQ" { SpecialOpcode.IAQ }
-    / "HWN" { SpecialOpcode.HWN }
-    / "HWQ" { SpecialOpcode.HWQ }
-    / "HWI" { SpecialOpcode.HWI }
+    = "JSR"i { SpecialOpcode.JSR }
+    / "HCF"i { SpecialOpcode.HCF }
+    / "INT"i { SpecialOpcode.INT }
+    / "IAG"i { SpecialOpcode.IAG }
+    / "IAS"i { SpecialOpcode.IAS }
+    / "RFI"i { SpecialOpcode.RFI }
+    / "IAQ"i { SpecialOpcode.IAQ }
+    / "HWN"i { SpecialOpcode.HWN }
+    / "HWQ"i { SpecialOpcode.HWQ }
+    / "HWI"i { SpecialOpcode.HWI }
 
 operand_a <BaseOperand>
     = s:small_number { new SmallLiteral(s) }
-    / "POP" { new PushPop(false) }
+    / "POP"i { new PushPop(false) }
     / operand
 
 operand_b <BaseOperand>
-    = "PUSH" { new PushPop(true) }
+    = "PUSH"i { new PushPop(true) }
     / operand
 
 operand <BaseOperand>
@@ -70,6 +77,8 @@ operand <BaseOperand>
     / n:number { new NextWordLiteral(n) }
     / "[" _ n:number _ "]" { new IndirectNextWord(n) }
     / "[" _ r:register _ "+" _ n:number  _"]" { new IndirectRegisterNextWord(r, n) }
+    / i:identifier { new LabelValue(i) }
+    / "[" _ i:identifier _ "]" { new IndirectLabel(i) }
 
 register <Register>
     = "A" { Register.A }
@@ -97,5 +106,16 @@ decimal_number <int>
 hex_number <int>
     = s:("0" [xX] [0-9a-fA-F]+) { System.Convert.ToInt32(s, 16) }
 
+identifier <string>
+    = s:([a-zA-Z_][a-zA-Z0-9_]<0,>) { string.Join("", s) }
+
+newline
+    = "\r\n"
+    / "\n"
+
 _
     = [ \t]*
+
+EOF
+    = !.
+    / unexpected:. #error{ "Unexpected character '" + unexpected + "'." }

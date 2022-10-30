@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assembler.Grammar.Ast
+﻿namespace Assembler.Grammar.AST
 {
     public class AsmFile
     {
+        public IReadOnlyList<Line> Lines { get; }
+
+        public AsmFile(IReadOnlyList<Line> lines)
+        {
+            Lines = lines;
+        }
     }
 }

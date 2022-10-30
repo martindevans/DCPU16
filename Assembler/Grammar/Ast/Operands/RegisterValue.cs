@@ -1,6 +1,6 @@
-﻿namespace Assembler.Grammar.Ast.Operands
+﻿namespace Assembler.Grammar.AST.Operands
 {
-    internal class RegisterValue
+    public class RegisterValue
         : BaseOperand
     {
         public DCPU16.Register Register { get; }

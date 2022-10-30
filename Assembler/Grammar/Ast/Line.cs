@@ -1,13 +1,13 @@
-﻿using Assembler.Grammar.Ast.Instructions;
+﻿using Assembler.Grammar.AST.Instructions;
 
-namespace Assembler.Grammar.Ast
+namespace Assembler.Grammar.AST
 {
-    internal class Line
+    public class Line
     {
-        public string Label { get; }
-        public BaseInstruction Instruction { get; }
+        public string? Label { get; }
+        public BaseInstruction? Instruction { get; }
 
-        public Line(string label, BaseInstruction instr)
+        public Line(string? label, BaseInstruction? instr)
         {
             Label = label;
             Instruction = instr;

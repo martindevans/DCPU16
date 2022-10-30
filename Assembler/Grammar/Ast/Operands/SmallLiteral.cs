@@ -1,4 +1,4 @@
-﻿namespace Assembler.Grammar.Ast.Operands
+﻿namespace Assembler.Grammar.AST.Operands
 {
     public class SmallLiteral
         : BaseOperand

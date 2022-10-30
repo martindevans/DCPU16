@@ -1,6 +1,6 @@
 ﻿using DCPU16;
 
-namespace Assembler.Grammar.Ast.Operands
+namespace Assembler.Grammar.AST.Operands
 {
     internal class IndirectRegisterNextWord
         : BaseOperand

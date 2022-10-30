@@ -1,7 +1,7 @@
-﻿using Assembler.Grammar.Ast.Operands;
+﻿using Assembler.Grammar.AST.Operands;
 using DCPU16;
 
-namespace Assembler.Grammar.Ast.Instructions
+namespace Assembler.Grammar.AST.Instructions
 {
     public class BasicInstruction
         : BaseInstruction

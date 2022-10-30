@@ -3,10 +3,10 @@ using DCPU16.Tests.Devices;
 namespace DCPU16.Tests.VM
 {
     [TestClass]
-    public class CoreHwqTests
+    public class Playground
         : CoreFixture
     {
-        public CoreHwqTests()
+        public Playground()
             : base(
                 new NothingDevice(1, 2, 3),
                 new NothingDevice(4, 5, 6)

@@ -20,8 +20,4 @@
     <ProjectReference Include="..\DCPU16\DCPU16.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Assembler\" />
-  </ItemGroup>
-
 </Project>
