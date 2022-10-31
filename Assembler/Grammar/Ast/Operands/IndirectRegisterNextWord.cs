@@ -6,12 +6,24 @@ namespace Assembler.Grammar.AST.Operands
         : BaseOperand
     {
         public Register Register { get; }
-        public int Value { get; }
+        public Number Value { get; }
 
-        public IndirectRegisterNextWord(Register register, int value)
+        public override uint WordLength => 1;
+
+        public IndirectRegisterNextWord(Register register, Number value)
         {
             Register = register;
             Value = value;
+        }
+
+        public override Operand Operand(bool a)
+        {
+            return DCPU16.Operand.INA + (int)Register;
+        }
+
+        public override ushort? NextWord(IReadOnlyDictionary<string, ushort> map)
+        {
+            return Value.Resolve(map);
         }
     }
 }

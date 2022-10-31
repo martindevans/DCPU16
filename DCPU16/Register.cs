@@ -2,16 +2,16 @@
 {
     public enum Register
     {
-        A,
-        B,
-        C,
-        X,
-        Y,
-        Z,
-        I,
-        J,
-        PC,
-        EX,
-        SP,
+        A = Operand.A,
+        B = Operand.B,
+        C = Operand.C,
+        X = Operand.X,
+        Y = Operand.Y,
+        Z = Operand.Z,
+        I = Operand.I,
+        J = Operand.J,
+        PC = Operand.PC,
+        EX = Operand.EX,
+        SP = Operand.SP,
     }
 }

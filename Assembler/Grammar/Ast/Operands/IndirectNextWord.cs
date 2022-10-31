@@ -1,13 +1,27 @@
-﻿namespace Assembler.Grammar.AST.Operands
+﻿using DCPU16;
+
+namespace Assembler.Grammar.AST.Operands
 {
-    internal class IndirectNextWord
+    public class IndirectNextWord
         : BaseOperand
     {
-        public int Value { get; }
+        public Number Value { get; }
 
-        public IndirectNextWord(int value)
+        public override uint WordLength => 1;
+
+        public IndirectNextWord(Number value)
         {
             Value = value;
+        }
+
+        public override Operand Operand(bool a)
+        {
+            return DCPU16.Operand.IndirectNextWord;
+        }
+
+        public override ushort? NextWord(IReadOnlyDictionary<string, ushort> map)
+        {
+            return Value.Resolve(map);
         }
     }
 }

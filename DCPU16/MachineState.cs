@@ -65,8 +65,8 @@ namespace DCPU16
                     case Operand.PC: return ref state.PC;
                     case Operand.EX: return ref state.EX;
 
-                    case Operand.INW: return ref memory[NextWord(ref state)];
-                    case Operand.NW:  return ref NextWord(ref state);
+                    case Operand.IndirectNextWord: return ref memory[NextWord(ref state)];
+                    case Operand.NextWord:  return ref NextWord(ref state);
 
                     default:
                     {

@@ -99,10 +99,10 @@
         EX,
 
         // [Next Word]
-        INW,
+        IndirectNextWord,
 
         // Next Word
-        NW,
+        NextWord,
 
         // 0x20-0x3f : literal value 0xffff-0x1e (-1..30) (literal) (only for a)
     }
