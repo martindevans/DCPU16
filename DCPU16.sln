@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DCPU16", "DCPU16\DCPU16.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DCPU16.Tests", "DCPU16.Tests\DCPU16.Tests.csproj", "{184FBE1A-60C0-41BD-9BF0-BFDCFC5601AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{1CAD66D7-F2CE-42B8-B746-8209CFA68A1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembler", "Assembler\Assembler.csproj", "{1CAD66D7-F2CE-42B8-B746-8209CFA68A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDE", "IDE\IDE.csproj", "{C62CD183-0577-4B06-A0C3-14513CC27EB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler.Frontend", "Assembler.Frontend\Assembler.Frontend.csproj", "{1415FD4D-CDC7-456A-B336-B57DA53356F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{1CAD66D7-F2CE-42B8-B746-8209CFA68A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CAD66D7-F2CE-42B8-B746-8209CFA68A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CAD66D7-F2CE-42B8-B746-8209CFA68A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C62CD183-0577-4B06-A0C3-14513CC27EB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C62CD183-0577-4B06-A0C3-14513CC27EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C62CD183-0577-4B06-A0C3-14513CC27EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C62CD183-0577-4B06-A0C3-14513CC27EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1415FD4D-CDC7-456A-B336-B57DA53356F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1415FD4D-CDC7-456A-B336-B57DA53356F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1415FD4D-CDC7-456A-B336-B57DA53356F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1415FD4D-CDC7-456A-B336-B57DA53356F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

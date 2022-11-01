@@ -1,6 +1,7 @@
 *.user
 
 .vs
+IDE
 
 Assembler/obj
 Assembler/bin
@@ -10,3 +11,6 @@ DCPU16/bin
 
 DCPU16.Tests/obj
 DCPU16.Tests/bin
+
+Assembler.Frontend/obj
+Assembler.Frontend/bin

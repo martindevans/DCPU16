@@ -1,4 +1,5 @@
-﻿using Assembler.Grammar;
+﻿using System.Text;
+using Assembler.Grammar;
 
 namespace Assembler
 {
@@ -32,7 +33,7 @@ namespace Assembler
             // Emit code
             var expectedOffset = (ushort)0;
             var actualOffset = (ushort)0;
-            using (var writer = new BinaryWriter(output))
+            using (var writer = new BinaryWriter(output, Encoding.Unicode, true))
             {
                 foreach (var line in ast.Lines)
                 {
