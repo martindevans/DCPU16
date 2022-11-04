@@ -284,7 +284,7 @@
 
                 case SpecialOpcode.HWI:
                 {
-                    return (byte)((4 + _bus.Interrupt(_state.A)) & 0xFF);
+                    return (byte)((4 + _bus.Interrupt(_state.A, ref _state)) & 0xFF);
                 }
 
                 default:

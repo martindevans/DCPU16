@@ -19,7 +19,7 @@
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Extra cycles the CPU is frozen for while hardware handles the interrupt</returns>
-        public byte Interrupt(ushort index);
+        public byte Interrupt(ushort index, ref MachineState state);
     }
 
     public readonly struct Device

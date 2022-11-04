@@ -5,12 +5,14 @@ IDE
 
 Assembler/obj
 Assembler/bin
+Assembler.Frontend/obj
+Assembler.Frontend/bin
 
 DCPU16/obj
 DCPU16/bin
+DCPU16.Frontend/obj
+DCPU16.Frontend/bin
 
 DCPU16.Tests/obj
 DCPU16.Tests/bin
 
-Assembler.Frontend/obj
-Assembler.Frontend/bin

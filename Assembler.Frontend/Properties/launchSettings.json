@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Assembler.Frontend": {
+      "commandName": "Project",
+      "commandLineArgs": "--input C:\\Users\\Martin\\Documents\\dotnet\\DCPU16\\DCPU16.Tests\\Assembler\\DASM\\pacman.dasm16 --output C:\\Users\\Martin\\Documents\\dotnet\\DCPU16\\DCPU16.Tests\\Assembler\\DASM\\pacman.hex"
+    }
+  }
+}
